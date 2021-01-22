@@ -63,7 +63,7 @@ class Registrator extends AbstractPlugin
             $queue->addTaskListeners(
                 $event['task'],
                 $event['event'],
-                $event['handler_class'],
+                '\\' . $event['handler_class'],
                 -10,
                 true
             );
