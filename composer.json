@@ -1,14 +1,15 @@
 {
-    "name": "marvin255/bxrocketeer",
+    "name": "evilkeeper/bxrocketeer",
     "description": "События rocketeer для битрикса",
     "type": "library",
     "keywords": ["php", "bitrix", "rocketeer"],
     "license": "MIT",
     "require": {
-        "php": ">=5.5.0"
+        "php": ">=7.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.2.0"
+        "friendsofphp/php-cs-fixer": "*",
+        "anahkiasen/rocketeer": "^2.2"
     },
     "autoload": {
         "psr-4": { "bxrocketeer\\": "src/" }
@@ -16,7 +17,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/marvin255/bxrocketeer"
+            "url": "https://github.com/evilkeeper/bxrocketeer"
         }
     ]
 }

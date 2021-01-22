@@ -11,9 +11,9 @@ use Rocketeer\Strategies\Deploy\SyncStrategy;
 class SyncDeployStrategy extends SyncStrategy
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    protected function rsyncTo($destination, $source = './')
+    protected function rsyncTo($destination, $source = './'): bool
     {
         // Build host handle
         $arguments = [];

@@ -6,7 +6,7 @@ use Rocketeer\Abstracts\AbstractTask;
 
 /**
  * Делает файл composer.phar внутри проекта исполняемым для того, чтобы обойти
- * ограничения, связнные с тем, что windows не пишет права на файл в git.
+ * ограничения, связанные с тем, что windows не пишет права на файл в git.
  */
 class SetComposerAsExecutable extends AbstractTask
 {
@@ -18,7 +18,7 @@ class SetComposerAsExecutable extends AbstractTask
     /**
      * @inheritdoc
      */
-    public function execute()
+    public function execute(): string
     {
         $this->command->info($this->description);
 

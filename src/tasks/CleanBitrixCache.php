@@ -17,19 +17,22 @@ class CleanBitrixCache extends AbstractTask
     /**
      * @inheritdoc
      */
-    public function execute()
+    public function execute(): string
     {
         $this->command->info($this->description);
 
+        // Битрикс на лету начинает генерировать только что удалённый кэш, из-за чего процесс может затянуться.
         $clearCommands = [
-            'rm -Rf web/bitrix/cache/*',
-            'rm -Rf web/bitrix/managed_cache/*',
+            'mv web/bitrix/cache web/bitrix/cache-old',
+            'rm -Rf web/bitrix/cache-old',
+            'mv web/bitrix/managed_cache web/bitrix/managed_cache-old',
+            'rm -Rf web/bitrix/managed_cache-old',
         ];
 
         $releasePath = rtrim($this->releasesManager->getCurrentReleasePath(), '/');
         $getListCommand = $this->php()->getCommand("-d short_open_tag=On -f {$releasePath}/cli.php list");
-        $listOfAviableCommands = $this->runRaw($getListCommand);
-        if (mb_strpos($listOfAviableCommands, 'base:cache.clear') !== false) {
+        $listOfAvailableCommands = $this->runRaw($getListCommand);
+        if (mb_strpos($listOfAvailableCommands, 'base:cache.clear') !== false) {
             $clearCacheCommand = $this->php()->getCommand('-d short_open_tag=On -f cli.php base:cache.clear --quiet');
             array_unshift($clearCommands, $clearCacheCommand);
         }

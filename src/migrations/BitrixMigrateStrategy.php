@@ -16,27 +16,21 @@ class BitrixMigrateStrategy extends AbstractStrategy implements MigrateStrategyI
     protected $description = 'Migrates your database with marvin255/bxmigrate';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function isExecutable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function migrate()
+    public function migrate(): bool
     {
         $this->runForCurrentRelease([
             $this->php()->getCommand('-d short_open_tag=On -f cli.php bxmigrate:up'),
         ]);
+
+        return true;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function seed()
+    public function seed(): bool
     {
         return $this->migrate();
     }

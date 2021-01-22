@@ -2,8 +2,15 @@
 
 namespace bxrocketeer;
 
+use bxrocketeer\tasks\SetComposerAsExecutable;
 use Rocketeer\Abstracts\AbstractPlugin;
+use Rocketeer\Exceptions\TaskCompositionException;
 use Rocketeer\Services\TasksHandler;
+use bxrocketeer\tasks\CreateShared;
+use bxrocketeer\tasks\PrepareSshForGit;
+use bxrocketeer\tasks\CleanRocketeerData;
+use bxrocketeer\tasks\CleanBitrixCache;
+use bxrocketeer\tasks\CheckBitrixDeploy;
 
 /**
  * Плагин, который регистрирует все таски для упрощения деплоя на битриксе.
@@ -17,39 +24,40 @@ class Registrator extends AbstractPlugin
         [
             'event' => 'before',
             'task' => 'dependencies',
-            'handler_class' => '\\bxrocketeer\\tasks\\SetComposerAsExecutable',
+            'handler_class' => SetComposerAsExecutable::class,
         ],
         [
             'event' => 'after',
             'task' => 'setup',
-            'handler_class' => '\\bxrocketeer\\tasks\\CreateShared',
+            'handler_class' => CreateShared::class,
         ],
         [
             'event' => 'after',
             'task' => 'setup',
-            'handler_class' => '\\bxrocketeer\\tasks\\PrepareSshForGit',
+            'handler_class' => PrepareSshForGit::class,
         ],
         [
             'event' => 'after',
             'task' => 'deploy',
-            'handler_class' => '\\bxrocketeer\\tasks\\CleanRockteerData',
+            'handler_class' => CleanRocketeerData::class,
         ],
         [
             'event' => 'after',
             'task' => 'dependencies',
-            'handler_class' => '\\bxrocketeer\\tasks\\CleanBitrixCache',
+            'handler_class' => CleanBitrixCache::class,
         ],
         [
             'event' => 'before',
             'task' => 'primer',
-            'handler_class' => '\\bxrocketeer\\tasks\\CheckBitrixDeploy',
+            'handler_class' => CheckBitrixDeploy::class,
         ],
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     * @throws TaskCompositionException
      */
-    public function onQueue(TasksHandler $queue)
+    public function onQueue(TasksHandler $queue): void
     {
         foreach ($this->events as $event) {
             $queue->addTaskListeners(
